@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
+
 //reduxForm like connect, Field is comp
 class StreamCreate extends Component {
 
@@ -24,8 +27,9 @@ class StreamCreate extends Component {
     )
   }
 
-  onSubmit(formValues){ //cl
+  onSubmit = formValues => { //cl
     //create --  our api is json server
+    this.props.createStream(formValues);
   }
 
   render() {
@@ -45,8 +49,7 @@ const validate = (formValues) => {
   if(!formValues.description) error.description = 'enter description please';
   return error;  
 }
+//it give tone of props after init in here
+const formWrapped = reduxForm({ form: 'streamCreate', validate })(StreamCreate);
 
-export default reduxForm({ //it give tone of props after init in here
-  form: 'streamCreate',
-  validate
-})(StreamCreate);
+export default connect(null,{ createStream })(formWrapped);

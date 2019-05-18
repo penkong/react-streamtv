@@ -3,11 +3,23 @@ import { Field, reduxForm } from 'redux-form';
 //reduxForm like connect, Field is comp
 class StreamCreate extends Component {
 
-  renderInput(formProps){ //cl
+  renderError = (meta) => {
+    if (meta.touched && meta.error) {
+      return (
+        <div className="ui error message">
+          <div className="header">{meta.error}</div>
+        </div>
+      )
+    }
+  }
+
+  renderInput = (formProps) => { //cl
+    const className = `field ${formProps.meta.error && formProps.meta.touched ? 'error' : ''}`;
     return (
-      <div className="field">
+      <div className={className}>
         <label>{formProps.label}</label>
-        <input {...formProps.input}/>
+        <input {...formProps.input} autoComplete="off"/>
+        {this.renderError(formProps.meta)}
       </div>
     )
   }
@@ -18,7 +30,7 @@ class StreamCreate extends Component {
 
   render() {
     return (
-      <form className="ui form" onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <form className="ui form error" onSubmit={this.props.handleSubmit(this.onSubmit)}>
         <Field name="title" component={this.renderInput} label="Enter title"/>
         <Field name="description" component={this.renderInput} label="Enter description"/>
         <button className="ui button primary">Submit</button>
@@ -35,5 +47,6 @@ const validate = (formValues) => {
 }
 
 export default reduxForm({ //it give tone of props after init in here
-  form: 'streamCreate'
+  form: 'streamCreate',
+  validate
 })(StreamCreate);

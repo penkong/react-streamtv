@@ -25,7 +25,7 @@ class StreamCreate extends Component {
   }
 
   onSubmit(formValues){ //cl
-
+    //create --  our api is json server
   }
 
   render() {

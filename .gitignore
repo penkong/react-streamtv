@@ -1,9 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-"emmet.includeLanguages": {
-        "javascript": "javascriptreact"
-    },
+
 # dependencies
-/node_modules
+client/node_modules
+api/node_modules
 /.pnp
 .pnp.js
 # testing

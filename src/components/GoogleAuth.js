@@ -3,17 +3,15 @@ import React, { Component } from 'react';
 
 class GoogleAuth extends Component {
 
-  state = { isSignedIn : null };
-
   componentDidMount() {
     //gapi.auth2.getAuthInstance this is obj we want
     window.gapi.load('client:auth2' , ()=>{
       window.gapi.client.init({
-        clientId: '891354093350-97k9q1batjta6ei0pcv25plh4l1r7um9.apps.googleusercontent.com',
+        clientId: '891354093350-tiua7emnq62jj7gibtvia52ev6ba67md.apps.googleusercontent.com',
         scope: 'email' 
       }).then(()=>{// let user sign in out status ...
         this.auth = window.gapi.auth2.getAuthInstance();
-        this.onAuthChange(); //catch for first initialize
+        this.setState({ isSignedIn: this.auth.isSignedIn.get() }); //catch for first initialize
         this.auth.isSignedIn.listen(this.onAuthChange);
       });
     });
@@ -23,13 +21,29 @@ class GoogleAuth extends Component {
     this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   }
 
+  onSignInClick = () => this.auth.signIn()
+  
+  onSignOutClick = () => this.auth.signOut()
+
   renderAuthButton(){
     if(this.state.isSignedIn === null) {
-      return <div>i dont knewo</div>
+      return null;
+
     } else if (this.state.isSignedIn) {
-      return <div>ddddd</div>
+      return (
+        <button className="ui red google button" onClick={this.onSignOutClick}>
+          <i className="google icon"/>
+            Sign Out
+        </button>
+      );
     } else {
-      return <div> dddddffffff</div>
+
+      return (
+        <button className="ui red google button" onClick={this.onSignInClick}>
+          <i className="google icon" />
+            SignIn
+        </button>
+      );
     }
   }
 

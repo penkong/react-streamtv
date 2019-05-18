@@ -4,6 +4,11 @@
       "title": "mystream",
       "description": "hello stream",
       "id": 1
+    },
+    {
+      "title": "postStream",
+      "description": "hi deeedy",
+      "id": 2
     }
   ]
 }

@@ -1,11 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux';
 
-const StreamEdit = () => {
+
+//have props from react router dom
+const StreamEdit = props => {
   return (
     <div>
       edit
     </div>
   )
 }
+const mapStateToProps = (state , ownProps) => {
+  return { streams: state.streams[ownProps.match.param.id] };
+}
 
-export default StreamEdit;
+export default connect(mapStateToProps, {})(StreamEdit)

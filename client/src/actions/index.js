@@ -1,4 +1,7 @@
+
 import streams from '../apis/streams';
+import history from '../history';
+
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -8,6 +11,8 @@ import {
   EDIT_STREAM,
   DELETE_STREAM,
 } from './types';
+
+
 
 export const signIn = (userId) => {
   return {
@@ -23,10 +28,15 @@ export const signOut = () => {
 };
 
 //arg from redux for ... dispatch from redux thunk
-export const createStream = formValues => async (dispatch, getState) => {
+//browser router of react send history as prop to comp we have it
+export const createStream = (formValues) => async (dispatch, getState) => {
   const { userId } = getState().auth;
   const response = await streams.post('/streams', { ...formValues, userId });
   dispatch({ type: CREATE_STREAM , payload: response.data });
+  history.push('/');
+  //programmatic nav to send user back to app. our history browser router
+  //there fore we make history by ourself there fore we can mutate
+  //make history file > use plain Router
 };
 
 export const fetchStreams = () => async dispatch => {

@@ -1,17 +1,35 @@
-import React from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import _ from 'lodash';
+import { fetchStream , editStream } from '../../actions';
+import StreamForm from './StreamForm';
 
 //have props from react router dom
-const StreamEdit = props => {
-  return (
-    <div>
-      edit
-    </div>
-  )
-}
-const mapStateToProps = (state , ownProps) => {
-  return { streams: state.streams[ownProps.match.param.id] };
+class StreamEdit extends Component {
+
+  componentDidMount() {
+    this.props.fetchStream(this.props.match.params.id);
+  }
+  
+  onSubmit = (formValues) => {
+    this.props.editStream(this.props.match.params.id, formValues);
+  }
+
+  render() {
+    if(!this.props.streams) return <div>Loading</div>
+    return (
+      <div>
+        <h3>Edit a stream</h3>
+        <StreamForm initialValues={_.pick(this.props.stream,'title','description')} 
+          onSubmit={this.onSubmit} 
+        />
+      </div>
+    );
+  }
 }
 
-export default connect(mapStateToProps, {})(StreamEdit)
+const mapStateToProps = (state , ownProps) => {
+  return { streams: state.streams[ownProps.match.params.id] };
+}
+
+export default connect(mapStateToProps, { fetchStream , editStream })(StreamEdit)
